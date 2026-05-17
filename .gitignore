@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node (in case skills evolve to use any tooling)
+node_modules/
+*.log
+.env
+.env.local
+
+# Smoke-test scratch
+scratch/
+*.scratch.json
