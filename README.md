@@ -15,6 +15,7 @@ This installs every skill below into your AI host's skill directory.
 | Skill | What it does |
 |---|---|
 | [`dokploy`](./skills/dokploy) | Deploy, redeploy, manage env vars, check deployment status, and scaffold Dockerfiles against a self-hosted [Dokploy](https://dokploy.com) PaaS via its REST API. |
+| [`tailscale-admin`](./skills/tailscale-admin) | Manage a Tailscale tailnet via the Admin API — devices, auth keys, ACL read, audit. For local-node CLI ops, see [majiayu000's tailscale skill](https://github.com/majiayu000/claude-skill-registry). |
 
 ## License
 
