@@ -20,7 +20,7 @@ Always: **read → splice → write**. Never write a partial env block.
 
 ```bash
 curl -sS "$DOKPLOY_URL/api/application.one?applicationId=<id>" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   | jq -r '.env // ""'
 ```
 
@@ -60,7 +60,7 @@ This is transparency, not a confirmation gate — the host runtime decides wheth
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/application.saveEnvironment" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d "$(jq -n \
     --arg id '<id>' \

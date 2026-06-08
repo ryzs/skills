@@ -16,7 +16,7 @@
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/application.redeploy" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "applicationId": "<id>",

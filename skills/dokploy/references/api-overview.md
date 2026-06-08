@@ -17,7 +17,7 @@ Example: `https://dokploy.example.com/api/project.all`.
 Every request needs:
 
 ```
-Authorization: Bearer $DOKPLOY_API_TOKEN
+x-api-key: $DOKPLOY_API_TOKEN
 ```
 
 The token is a static string generated in the Dokploy UI under **Settings → API**. There is no refresh flow — when it expires, the user regenerates it in the UI and updates the env var.

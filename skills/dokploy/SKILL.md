@@ -8,7 +8,7 @@ description: Use when the user wants to interact with a Dokploy self-hosted PaaS
 ## Prerequisites
 
 - `DOKPLOY_URL` — base URL of the user's Dokploy server, e.g. `https://dokploy.example.com`
-- `DOKPLOY_API_TOKEN` — Bearer token from the Dokploy UI → Settings → API
+- `DOKPLOY_API_TOKEN` — API key (sent as the `x-api-key` header) from the Dokploy UI → Settings → API
 - `curl` and `jq` on PATH
 
 If either env var is missing, **stop and ask the user to set them**. Do not invent or guess values.

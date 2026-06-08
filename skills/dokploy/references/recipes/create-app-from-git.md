@@ -23,7 +23,7 @@ If anything is missing, **ask the user before continuing**. Do not invent.
 ```bash
 # List existing projects
 curl -sS "$DOKPLOY_URL/api/project.all" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   | jq '.[] | {projectId, name}'
 ```
 
@@ -31,7 +31,7 @@ If a project with the requested name exists, capture its `projectId`. Otherwise:
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/project.create" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"name": "<project name>", "description": "<optional>"}'
 ```
@@ -44,7 +44,7 @@ Use the project's `production` environment unless the user specified otherwise:
 
 ```bash
 curl -sS "$DOKPLOY_URL/api/project.one?projectId=<projectId>" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   | jq '.environments[] | {environmentId, name}'
 ```
 
@@ -54,7 +54,7 @@ Capture the `environmentId` matching `production` (or the user's chosen env).
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/application.create" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "<app name>",
@@ -82,7 +82,7 @@ Body shape (GitHub example — others are similar; use the user's `/swagger` to 
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/application.saveGithubProvider" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "applicationId": "<applicationId>",
@@ -105,7 +105,7 @@ Default is Dockerfile. To override:
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/application.saveBuildType" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "applicationId": "<applicationId>",
@@ -119,7 +119,7 @@ Build types: `dockerfile` (default), `nixpacks`, `heroku_buildpacks`, `paketo_bu
 
 ```bash
 curl -sS -X POST "$DOKPLOY_URL/api/application.deploy" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "applicationId": "<applicationId>",

@@ -34,14 +34,14 @@ When the user says "redeploy `web`", do not assume. Walk:
 ```bash
 # 1. List projects
 curl -sS "$DOKPLOY_URL/api/project.all" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   | jq '.[] | {projectId, name}'
 ```
 
 ```bash
 # 2. Get the project (which embeds environments and their applications)
 curl -sS "$DOKPLOY_URL/api/project.one?projectId=<id>" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   | jq '.environments[] | {environmentId, name, applications: [.applications[] | {applicationId, name}]}'
 ```
 

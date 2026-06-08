@@ -14,7 +14,7 @@
 
 ```bash
 curl -sS "$DOKPLOY_URL/api/deployment.all?applicationId=<id>" \
-  -H "Authorization: Bearer $DOKPLOY_API_TOKEN" \
+  -H "x-api-key: $DOKPLOY_API_TOKEN" \
   | jq '[.[] | {title, status, errorMessage, startedAt, finishedAt, deploymentId}] | .[:5]'
 ```
 
