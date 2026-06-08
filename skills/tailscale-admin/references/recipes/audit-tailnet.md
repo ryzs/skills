@@ -16,7 +16,7 @@ Runs three reads, correlates the data, renders a single dashboard. The killer re
 
 1. `GET /tailnet/-/devices?fields=all` — full device list.
 2. `GET /tailnet/-/keys` — all auth keys.
-3. `GET /tailnet/-/acl?details=1` — current ACL.
+3. `GET /tailnet/-/acl` with `Accept: application/json` — current ACL as a parsed object. Do **not** add `?details=1` (it returns `acl` as an unparseable HuJSON string).
 
 Three API calls total. Well under rate limit.
 
@@ -48,7 +48,7 @@ DEVICES=$(curl -sS "https://api.tailscale.com/api/v2/tailnet/-/devices?fields=al
 KEYS=$(curl -sS "https://api.tailscale.com/api/v2/tailnet/-/keys" \
   -H "Authorization: Bearer $TAILSCALE_API_TOKEN")
 
-ACL=$(curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl?details=1" \
+ACL=$(curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl" \
   -H "Authorization: Bearer $TAILSCALE_API_TOKEN" \
   -H "Accept: application/json")
 
@@ -79,7 +79,7 @@ echo "$KEYS" | jq --argjson now "$NOW" '
 
 # ACL summary — tags defined vs used
 echo "=== ACL tag usage ==="
-DEFINED=$(echo "$ACL" | jq '.acl // . | (.tagOwners // {}) | keys')
+DEFINED=$(echo "$ACL" | jq '(.tagOwners // {}) | keys')
 USED=$(echo "$DEVICES" | jq '[.devices[] | (.tags // [])[]] | unique')
 echo "$DEFINED" | jq --argjson used "$USED" '
   . as $defined |

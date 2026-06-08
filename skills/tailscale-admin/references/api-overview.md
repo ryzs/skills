@@ -42,7 +42,7 @@ REST-ish. Methods used in v1:
 | GET | `/tailnet/-/keys` | List auth keys |
 | POST | `/tailnet/-/keys` | Create auth key |
 | DELETE | `/tailnet/-/keys/{keyId}` | Revoke auth key |
-| GET | `/tailnet/-/acl?details=1` | Read ACL with edit metadata |
+| GET | `/tailnet/-/acl` | Read ACL (send `Accept: application/json` for a parsed object, or `application/hujson` for raw text — see [read-acl recipe](recipes/read-acl.md)) |
 | DELETE | `/device/{deviceId}` | Delete device |
 | POST | `/device/{deviceId}/expire` | Expire device key |
 | POST | `/device/{deviceId}/tags` | Replace device tags |

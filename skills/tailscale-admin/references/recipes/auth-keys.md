@@ -35,7 +35,7 @@ Returns metadata only — no secrets. Each key has:
 | `id` | Use this for delete |
 | `description` | Free-text, set at creation |
 | `expires` | ISO timestamp (max 90 days from creation) |
-| `revoked` | Boolean |
+| `revoked` | Revocation timestamp; `null` (or absent) for active keys, set once revoked. Treat "present and non-null" as revoked rather than expecting a strict boolean. |
 | `capabilities` | The configured reusable/ephemeral/preauthorized/tags |
 
 ### Filter for unused or expired

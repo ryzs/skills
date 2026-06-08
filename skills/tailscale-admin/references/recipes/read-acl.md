@@ -14,34 +14,42 @@ This recipe is **read-only**. ACL editing is deferred to v2 (needs `If-Match` ET
 
 ## API call
 
+Two response modes, controlled by the `Accept` header. **Do not add `?details=1`** — that wraps the policy as `{acl, errors, warnings}` where `acl` is an unparseable HuJSON *string*, which breaks every jq path below.
+
+**Raw HuJSON** (preserves comments and structure — present this to the user first):
+
 ```bash
-curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl?details=1" \
+curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl" \
   -H "Authorization: Bearer $TAILSCALE_API_TOKEN" \
   -H "Accept: application/hujson"
 ```
 
-`details=1` includes edit metadata (`tailnet`, `acl`, edited-by user, edit timestamp).
+This returns HuJSON text (comments, trailing commas). Readable, but **not** valid JSON — do not pipe it to `jq`.
 
-For JSON-normalized output (loses HuJSON comments and structure but is easier to query with jq):
+**Parsed JSON** (HuJSON normalized to a real JSON object — use this for any jq query):
 
 ```bash
-curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl?details=1" \
+curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl" \
   -H "Authorization: Bearer $TAILSCALE_API_TOKEN" \
   -H "Accept: application/json" \
   | jq
 ```
 
+The JSON object exposes `tagOwners`, `acls`, `grants`, `hosts`, `nodeAttrs`, `ssh`, `autoApprovers` at the **top level** — query them directly (e.g. `.tagOwners`). There is no `acl` wrapper key in this mode.
+
 ## What to show the user
 
-1. **Raw ACL** (default HuJSON; preserves comments). Always present this first.
+1. **Raw ACL** (HuJSON; preserves comments). Always present this first.
 2. **Tag summary** — extract `tagOwners` and list each declared tag with its owners.
 3. **Rule summary** — group ACL rules by what they grant (e.g. "tag:dokploy can SSH to tag:sidecar").
-4. **Edit metadata** — show who last edited and when (from the `?details=1` response).
 
-Example tag summary jq (against JSON output):
+Example tag summary jq (against the parsed-JSON output):
 
 ```bash
-... | jq '.tagOwners | to_entries | map({tag: .key, owners: .value})'
+curl -sS "https://api.tailscale.com/api/v2/tailnet/-/acl" \
+  -H "Authorization: Bearer $TAILSCALE_API_TOKEN" \
+  -H "Accept: application/json" \
+  | jq '.tagOwners | to_entries | map({tag: .key, owners: .value})'
 ```
 
 ## Resolving identifiers
